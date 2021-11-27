@@ -1,13 +1,30 @@
-""" routes.py - Flask route definitions
+from flask.wrappers import Response
+from flask_restx import Namespace, Resource
+import pandas as pd
+from flask import render_template,request, jsonify
+import flaskapp.queryhandler as qh
+import flaskapp
 
-Flask requires routes to be defined to know what data to provide for a given
-URL. The routes provided are relative to the base hostname of the website, and
-must begin with a slash."""
-from flaskapp import app
-from flask import render_template
-import csv
+product_ns = Namespace('COVID-19 Knowledge Graph', description='COVID-19 Knowledge Graph')
 
-@app.route('/')
-@app.route('/pca')
-def get_pca():
-    return None
+@product_ns.route('/getqueryembedding')
+@product_ns.doc("API that returns a query embedding for a given query string")
+@product_ns.doc(params={'querystr': 'Query String'})
+class queryembedding(Resource):
+    def get(self):
+        query_string = request.args.get("querystr")
+        embedding = qh.getqueryembedding(query_string,query_string)
+        embedding = pd.DataFrame(embedding).astype("float")
+        flaskapp.flask_app.logger.info("getqueryembedding Success")
+        return embedding.to_json(orient="records")
+
+@product_ns.route('/getrelevanttitles')
+@product_ns.doc("API that returns relevant titles for a query  string")
+@product_ns.doc(params={'querystr': 'Query String'})
+class relateddocuments(Resource):
+    def get(self):
+        query_string = request.args.get("querystr")
+        flaskapp.flask_app.logger.info("getrelevanttitles Success")
+        return qh.getrelateddocuments(query_string,query_string)
+
+

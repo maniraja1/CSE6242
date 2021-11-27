@@ -1,7 +1,5 @@
-""" run.py - Run the Flask app """
-from flaskapp import app
+from flaskapp import flask_app
+from flaskapp.registerblueprint import registerBluePrint
 
-if __name__ == '__main__':
-    # Tells Flask to run, accessible from the specified host/port pair. Note
-    # that the routes are loaded because of the import above.
-    app.run(host='127.0.0.1', port=3000, debug=True)
+registerBluePrint(flask_app)
+flask_app.run(debug=True)

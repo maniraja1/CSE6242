@@ -1,0 +1,12 @@
+[
+    {"ID":2,"edges": [696,82], "cord_uid": "","title":"Obesity and COVID-19: Time to Take Action","abstract":null},
+    {"ID":696,"edges": [2,82], "cord_uid": "","title":"Are children less susceptible to COVID-19?","abstract":null},
+    {"ID":82,"edges": [696,82], "cord_uid": "","title":"Does higher Body Mass Index increase COVID-19 severity?: a systematic review and meta-analysis","abstract":"INTRODUCTION: Obesity and"},
+    {"ID":420,"edges": [110,284], "cord_uid": "","title":"Diabetes and COVID-19-the meeting of two pandemics: what are the concerns?","abstract":null},
+    {"ID":110,"edges": [420,284], "cord_uid": "","title":"Do biomarkers of COVID-19 severity simply reflect a stress response in type 2 diabetes: Biomarker response to hypoglycemia","abstract":null},
+    {"ID":284,"edges": [420,110], "cord_uid": "","title":"Covid-19 and diabesity: when a pandemia cross another pandemia","abstract":"The Covid-19 epidemic is "},
+    {"ID":159,"edges": [404,199,893], "cord_uid": "","title":"Effects Of Interrupted Routine Due To Covid-19 On Circadian Chronotype And Leisure Time Physical Activity","abstract":null},
+    {"ID":404,"edges": [159,199,893], "cord_uid": "","title":"Continued Coping With COVID","abstract":null},
+    {"ID":199,"edges": [404,159,893], "cord_uid": "","title":"COVID-19 and diabetes: What have we learned so far?","abstract":"COVID-19 and diabetes are"},
+    {"ID":893,"edges": [404,159,199], "cord_uid": "","title":"COVID-19 Has Made the Elderly Lonelier","abstract":"Loneliness is a major ris"}
+]
