@@ -1,2 +1,2 @@
 LOGDIR= "../logging"
-EMBEDDING_FILE = "../data/embedding_1000.csv"
+EMBEDDING_FILE = "../data/embedding_10000.csv"
