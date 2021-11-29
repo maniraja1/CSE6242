@@ -7,7 +7,19 @@ import scipy.sparse.linalg as ll
 from os.path import abspath, exists
 import os
 import time
-import queryhandler as qh
+from transformers import AutoTokenizer, AutoModel
+
+tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
+model = AutoModel.from_pretrained('allenai/specter')
+
+def getqueryembedding(query: str, abstract: str=''):
+    title_abs = [query + tokenizer.sep_token + abstract ]
+    # preprocess the input
+    inputs = tokenizer(title_abs, padding=True, truncation=True, return_tensors="pt", max_length=512)
+    result = model(**inputs)
+    # take the first token in the batch as the embedding
+    embeddings = result.last_hidden_state[:, 0, :]
+    return embeddings
 
 def BuildCovarianceMatrix(y):
     m,n = y.shape
@@ -39,7 +51,7 @@ def GenerateEmbeddings(MetadataFile:str,MaxRows:int,OutFile:str):
         #print(temp['title'].head(5))
         for index, row in temp.iterrows():
             #print(index)
-            embedding = qh.getqueryembedding(row['title'], row['abstract']).cpu().detach().numpy()
+            embedding = getqueryembedding(row['title'], row['abstract']).cpu().detach().numpy()
             df = df.append(pd.DataFrame(embedding.reshape(1,-1), columns=list(df)), ignore_index=True)
             df.insert(len(column_names), 'abstract', row['abstract'])
             df.insert(len(column_names)+1, 'title', row['title'])
@@ -86,9 +98,6 @@ def GeneratePrincipalComponents(SourceData:str,OutFile:str):
     print ("Total Execution time"+str(end-start))
 
 
-#GenerateEmbeddings('metadata.csv',1000, 'embedding_1000')
-os.chdir(os.path.dirname(__file__))
-temp = pd.read_csv("../data/embedding_1000.csv")
-print(temp.iloc[0:5,:])
+GenerateEmbeddings('metadata.csv',10000, 'embedding_10000')
 
 
