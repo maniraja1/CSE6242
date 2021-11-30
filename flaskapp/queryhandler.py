@@ -7,6 +7,9 @@ import pandas as pd
 import os
 import time
 import flaskapp
+import json
+from scipy.spatial.distance import pdist
+from scipy.spatial.distance import squareform
 
 tokenizer = AutoTokenizer.from_pretrained('allenai/specter')
 model = AutoModel.from_pretrained('allenai/specter')
@@ -32,6 +35,8 @@ def getrelateddocuments(query_title:str, query_abstract:str ):
     os.chdir(os.path.dirname(__file__))
     embedding = pd.read_csv(flaskapp.embedding_file)
 
+    embeddings = embedding.copy()
+
     query_embedding = getqueryembedding (query_title,query_abstract)
 
     embedding['similarity'] = embedding.apply(lambda row: getsimilarity(row[2:-2],query_embedding), axis=1)
@@ -39,21 +44,46 @@ def getrelateddocuments(query_title:str, query_abstract:str ):
     embedding = embedding[["ID", "0", "title","abstract"]].head(10)
     embedding = embedding.rename(columns={'0': 'cord_uid'})
     embedding['abstract'] = embedding['abstract'].str[:300]
-    return   embedding.to_json(orient="records")
+    return   embeddings, embedding.to_json(orient="records")
 
 def test_getrelateddocuments():
     start = time.time()
-    print(getrelateddocuments("Obesity and COVID-19", "Obesity and COVID-19"))
+    print(getrelateddocuments("Obesity and COVID-19", "Obesity and COVID-19")[1])
     end = time.time()
     print ("Total Execution time"+str(end-start))
 
 
-
-
-
+def similarity_matrix(query_title:str, query_abstract:str,cutoff = 0.8):
+    embedding,getrelated = getrelateddocuments(query_title, query_abstract)
+    getrelated = json.loads(getrelated)
+    IDs = [i['ID'] for i in getrelated]
+    X= pd.DataFrame(columns = embedding.columns[2:770])
+    for i,j in enumerate(IDs):
+        X = X.append(embedding[embedding['ID']==j].iloc[:,2:770])
+    dist  = pdist(X, metric ='cosine')
+    sim = 1-squareform(dist)
+    sim[sim<cutoff]=0
+    sim[sim>=cutoff]=1
+    return IDs,sim
             
+def nodes_edges(query_title:str, query_abstract:str,cutoff=0.8):
+    IDs,sm= similarity_matrix(query_title, query_abstract,cutoff)
+    sm_df = pd.DataFrame(sm, columns = [i for i in IDs], index = [i for i in IDs])
+    nodes_edges = {}
+    for i in sm_df.index.to_list():
+        f = sm_df.loc[i].to_list()
+        nodes_edges[i] = [sm_df.columns[j] for j,k in enumerate(f) if (k ==1) & (i != sm_df.columns[j])]
+    return nodes_edges
 
-    
+
+
+
+
+
+
+
+
+
 
 
 
