@@ -405,8 +405,109 @@
           .style("fill", "#00FF00")
           .attr("class", "greedot")
 
-    })
-  }
+     })
+    }
+
+    function topicChart(submissionData) {
+      const data = JSON.parse(submissionData);
+      var docIds = []
+      data.forEach(function(d) {
+        docIds.push(d['ID'].toString())
+      });
+
+      // set the dimensions and margins of the graph
+      var margin = {top: 100, right: 100, bottom: 50, left: 100};
+      var width = 800 - margin.left - margin.right;
+      var height = 500 - margin.top - margin.bottom;
+
+      var svg = d3.select("body").append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+              .attr("transform",
+                      "translate(" + margin.left + "," + margin.top + ")");
+
+      svg.append("text")
+              .attr("x", (width / 2))
+              .attr("y", -30)
+              .attr("text-anchor", "middle")
+              .style("font-size", "20px")
+              .text("Topic Model");
+
+      var plot = svg.append("g");
+
+      var colorArray = [d3.schemeCategory10, d3.schemeAccent];
+      var colorScheme = d3.scaleOrdinal(colorArray[0]);
+
+      //Read the data
+      d3.csv("static/trained_lda_1000.csv").then(function (data) {
+        // Skip the first column which is "id".
+        var topics = data.columns.slice(1);
+
+        // set the ranges
+        var x = d3.scalePoint().domain(topics).range([0, width]);
+        var y = d3.scaleLinear().domain([0, 1]).range([height, 0]);
+
+        // Add lines and legend.
+        var lineCount = 0;
+        data.forEach(function (d) {
+          if (docIds.includes(d.id)) {
+            var points = []
+            topics.forEach(function (column) {
+              points.push({
+                'x': column,
+                'y': d[column]
+              })
+            });
+
+            plot.append("path")
+                    .data([points])
+                    .attr("class", "line")
+                    .style("stroke", colorScheme(lineCount))
+                    .attr("d", d3.line()
+                            .x(function (d) {
+                              return x(d['x']);
+                            })
+                            .y(function (d) {
+                              return y(d['y']);
+                            }));
+
+            plot.append("text")
+                    .attr("transform", "translate(" + (width-50) + "," + lineCount*20 + ")")
+                    .attr("dy", ".35em")
+                    .style("font-size", "12px")
+                    .attr("text-anchor", "start")
+                    .style("fill", colorScheme(lineCount))
+                    .text('paper' + d.id);
+
+            lineCount++;
+          }
+        });
+
+        // Add the X Axis
+        var xAxis = plot.append("g")
+                .attr("transform", "translate(0," + height + ")");
+        xAxis.call(d3.axisBottom(x));
+        xAxis.append("text")
+                .attr("x", (width / 2))
+                .attr("y", 40)
+                .style("fill", "black")
+                .style("text-anchor", "middle")
+                .style("font-size", "15px")
+                .text("Topic");
+
+        // Add the Y Axis
+        var yAxis = plot.append("g");
+        yAxis.call(d3.axisLeft(y));
+        yAxis.append("text")
+                .attr("transform",
+                        "translate(" + -40 + "," + (height / 2) + ") rotate(-90) ")
+                .style("fill", "black")
+                .style("text-anchor", "middle")
+                .style("font-size", "15px")
+                .text("Weight");
+      })
+    }
 
 
     //search bar
@@ -429,6 +530,7 @@
         loadingBar.textContent = ``;
         //console.log(submissionData);
         firstGraph();
+        topicChart(submissionData);
       }
 
       getDocuments();
