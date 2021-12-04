@@ -12,8 +12,8 @@ product_ns = Namespace('COVID-19 Knowledge Graph', description='COVID-19 Knowled
 @flaskapp.flask_app.route('/default')
 @flaskapp.flask_app.route('/home')
 def home():
-    os.chdir(os.path.dirname(__file__))
-    return render_template('default.html')
+    #os.chdir(os.path.dirname(__file__))
+    return render_template('submission.html')
 
 @product_ns.route('/getqueryembedding')
 @product_ns.doc("API that returns a query embedding for a given query string")

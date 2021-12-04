@@ -62,7 +62,6 @@ def getrelateddocuments(query_title:str, query_abstract:str, cutoff = 0.8):
         nodes_edges[i] = [sim_df.columns[j] for j,k in enumerate(f) if (k ==1) & (i != sim_df.columns[j])]
     
     embedding['edges'] = embedding['ID'].map(nodes_edges)
-    print(embedding)
     return   embedding.to_json(orient="records")
 
 def test_getrelateddocuments():

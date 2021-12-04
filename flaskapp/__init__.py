@@ -24,8 +24,6 @@ def create_app(app):
     return app
 
 
-
-os.chdir(os.path.dirname(__file__))
 flask_app = Flask(__name__)
 flask_app = create_app(flask_app)
 embedding_file = flask_app.config['EMBEDDING_FILE']

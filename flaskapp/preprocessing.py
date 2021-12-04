@@ -80,7 +80,7 @@ def GeneratePrincipalComponents(SourceData:str,OutFile:str):
     #print(embedding.head(10))
     #embedding.to_csv("data/embeddings.csv", sep=",",index=False)
 
-    embedding_nocordid = embedding.loc[:, embedding.columns != 0]
+    embedding_nocordid = embedding.iloc[:,2:770 ]
     A1 =embedding_nocordid.to_numpy()
     A1 = A1.T
 
@@ -92,12 +92,13 @@ def GeneratePrincipalComponents(SourceData:str,OutFile:str):
     Principal_components = np.column_stack((index,principal_component1,principal_component2))
 
     df = pd.DataFrame(Principal_components, columns=['index','principal_component1','principal_component2'])
-    df.to_csv(OutFile, sep=",",index=False)
+    df.to_csv('../data/'+OutFile, sep=",",index=False)
 
     end = time.time()
     print ("Total Execution time"+str(end-start))
 
 
 GenerateEmbeddings('metadata.csv',10000, 'embedding_10000')
+GeneratePrincipalComponents('embedding_10000.csv', 'principal_components_10k.csv')
 
 
