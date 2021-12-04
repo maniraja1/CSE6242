@@ -73,7 +73,6 @@
 
 
 <div id="my_dataviz"></div>
-
 </div>
 
 <head>
@@ -81,6 +80,8 @@
 </head>
 
 <body>
+  <div id="progress"></div>   
+
   <script>
     var submissionData = '';
 
@@ -96,17 +97,17 @@
       console.log(error);
     }); */
 
-
+    
 
     function firstGraph() {
-
+      
       const data = JSON.parse(submissionData);
       data.forEach(function(d) {
         d.ID = d['ID'];
         d.edges = d['edges']
         d.title = d['title']
       });
-      console.log('firstGraph: ', data);
+      //console.log('firstGraph: ', data);
       const vars = []
       //const head = ['source','target','value']
       //vars.push(head)
@@ -130,7 +131,7 @@
         link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });
         link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
       });
-      console.log(links[2])
+      //console.log(links[2])
 
 
 
@@ -314,8 +315,8 @@
       var documentids = []
       for (var i in dataset)
             documentids.push(dataset[i].ID)
-      console.log("documentids")
-      console.log(documentids)
+      //console.log("documentids")
+      //console.log(documentids)
 
       //Read the data
       d3.csv("/static/principal_components_10k.csv").then(function (data) {
@@ -327,7 +328,7 @@
           }
           return false  
         })
-        console.log(pca_reldocs)
+        //console.log(pca_reldocs)
         // Add X axis
         var x = d3.scaleLinear()
           .domain([
@@ -351,6 +352,7 @@
           .attr("text-anchor", "end")
           .attr("x", width)
           .attr("y", height - 3)
+          .style("font-size", "15px")
           .text("Principal Component-1");
           
 
@@ -377,6 +379,7 @@
           .attr("y", 6)
           .attr("dy", ".75em")
           .attr("transform", "rotate(-90)")
+          .style("font-size", "15px")
           .text("Principal Component-2");
 
         // Add dots
@@ -398,7 +401,7 @@
           .append("circle")
           .attr("cx", function (d) { return x(d.principal_component1); })
           .attr("cy", function (d) { return y(d.principal_component2); })
-          .attr("r", 10)
+          .attr("r", 5)
           .style("fill", "#00FF00")
           .attr("class", "greedot")
 
@@ -410,16 +413,21 @@
     function afterClick() {
       d3.select('#svg1').remove();
       d3.select('#svg2').remove();
+      
       // changed target to focus search
-      console.log('inside afterClick');
+      //console.log('inside afterClick');
+      var loadingBar = document.getElementById('progress');
+      loadingBar.textContent = `Loading visualization please wait...`;
       async function getDocuments() {
         var terms = document.getElementById("search").value.split(' ').join('+');
         const response = await fetch(`http://127.0.0.1:8080/swagger/COVID-19 Knowledge Graph/getrelevanttitles?querystr=${terms}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
+        
         submissionData = await response.json();
-        console.log(submissionData);
+        loadingBar.textContent = ``;
+        //console.log(submissionData);
         firstGraph();
       }
 
