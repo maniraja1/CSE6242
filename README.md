@@ -1,7 +1,7 @@
 # CSE6242 Final Project
 
 
-[**CovidVis**](#CSE6242 Final Project) | [**Pretrained models**](#Pretrained-models) | [**Topic Model**](#LDAl) | 
+[**CovidVis**](#CSE6242 Final Project) | [**Pretrained models**](#Pretrained-models) | [**Topic Model**](#Topic Model) | 
 [**Installation**](#Installation) | [**Report document**](#Report documents) 
 
 This repository contains code, document to our visualization platform, instructions to use [CovidVis](#CSE6242 Final Project), link to the [final report](https://github.com/maniraja1/CSE6242/Docs) and [poster](https://github.com/maniraja1/CSE6242/Docs).
