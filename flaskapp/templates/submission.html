@@ -441,7 +441,7 @@
       var colorScheme = d3.scaleOrdinal(colorArray[0]);
 
       //Read the data
-      d3.csv("static/trained_lda_1000.csv").then(function (data) {
+      d3.csv("static/trained_lda_10000.csv").then(function (data) {
         // Skip the first column which is "id".
         var topics = data.columns.slice(1);
 
@@ -474,7 +474,7 @@
                             }));
 
             plot.append("text")
-                    .attr("transform", "translate(" + (width-50) + "," + lineCount*20 + ")")
+                    .attr("transform", "translate(" + (width-50) + "," + lineCount*17 + ")")
                     .attr("dy", ".35em")
                     .style("font-size", "12px")
                     .attr("text-anchor", "start")
