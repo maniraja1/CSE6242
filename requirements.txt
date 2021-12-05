@@ -6,3 +6,7 @@ transformers
 sklearn
 torch
 torchvision
+gensim
+nltk
+pyLDAvis
+
