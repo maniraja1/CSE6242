@@ -421,6 +421,7 @@
       var height = 500 - margin.top - margin.bottom;
 
       var svg = d3.select("body").append("svg")
+              .attr("id","svg3")
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom)
               .append("g")
@@ -514,6 +515,7 @@
     function afterClick() {
       d3.select('#svg1').remove();
       d3.select('#svg2').remove();
+      d3.select('#svg3').remove();
       
       // changed target to focus search
       //console.log('inside afterClick');
