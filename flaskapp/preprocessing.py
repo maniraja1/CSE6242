@@ -76,10 +76,6 @@ def GeneratePrincipalComponents(SourceData:str,OutFile:str):
     os.chdir(os.path.dirname(__file__))
 
     embedding = pd.read_csv("../data/"+SourceData)
-    #embedding.insert(0, 'ID', range(0, 0 + len(embedding)))
-    #print(embedding.head(10))
-    #embedding.to_csv("data/embeddings.csv", sep=",",index=False)
-
     embedding_nocordid = embedding.iloc[:,2:770 ]
     A1 =embedding_nocordid.to_numpy()
     A1 = A1.T
@@ -93,6 +89,7 @@ def GeneratePrincipalComponents(SourceData:str,OutFile:str):
 
     df = pd.DataFrame(Principal_components, columns=['index','principal_component1','principal_component2'])
     df.to_csv('../data/'+OutFile, sep=",",index=False)
+    df.to_csv('static/'+OutFile, sep=",",index=False)
 
     end = time.time()
     print ("Total Execution time"+str(end-start))

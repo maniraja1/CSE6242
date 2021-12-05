@@ -52,7 +52,7 @@
 
   text {
     fill: #000;
-    font: 8px sans-serif;
+    font: 15px sans-serif;
     pointer-events: none;
   }
 
@@ -64,7 +64,7 @@
 </style>
 <div class="topnav">
   <a>Query</a>
-  <input type="text" id="search" placeholder="Search.." value="covid19 obesity" size="80">
+  <input type="text" id="search" placeholder="Search.." value="covid19 mental health" size="80">
   <button type="submit" id="submitButton"><i class="fa fa-search"></i></button>
 </div>
 
@@ -148,10 +148,18 @@
         .force("charge", d3.forceManyBody().strength(-250))
         .alphaTarget(1)
         .on("tick", tick);
+
       var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("id","svg1")
+
+      svg.append("text")
+        .attr("x", (width / 5))
+        .attr("y", 50)
+        .attr("text-anchor", "center")
+        .style("font-size", "30px")
+        .text("Covid19 Network Graph");
 
 
       links.forEach(function (link) {
@@ -163,7 +171,7 @@
       })
 
       var colors = d3.scaleLinear().domain([1, 10])
-        .range(["white", "blue"])
+        .range(["white", "orange"])
 
       // add the links
       var path = svg.append("g")
@@ -213,7 +221,8 @@
 
 
       node.append("text")
-        .attr("text-anchor", "end")
+        .attr("text-anchor", "center")
+        .style("font-size", "30px")
         .text(function (d) {
           return (d.name);
         });
@@ -289,7 +298,7 @@
         d.fx = null;
         d.fy = null;
         d3.select(this).select("circle").transition()
-          .style("fill", "blue");
+          .style("fill", "orange");
       };
 
       // ABove force directged graph 
@@ -309,6 +318,13 @@
         
         .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+
+      svg2.append("text")
+          .attr("x", (width / 10))
+          .attr("y", 20)
+          .attr("text-anchor", "left")
+          .style("font-size", "30px")
+          .text("PCA Plot");
 
       //const data = JSON.parse(submissionData);
       var dataset = data
@@ -354,7 +370,7 @@
           .attr("text-anchor", "end")
           .attr("x", width)
           .attr("y", height - 3)
-          .style("font-size", "15px")
+          .style("font-size", "30px")
           .text("Principal Component-1");
           
 
@@ -382,7 +398,7 @@
           .attr("y", 6)
           .attr("dy", ".75em")
           .attr("transform", "rotate(-90)")
-          .style("font-size", "15px")
+          .style("font-size", "30px")
           .text("Principal Component-2");
 
         // Add dots
@@ -494,10 +510,10 @@
         xAxis.call(d3.axisBottom(x));
         xAxis.append("text")
                 .attr("x", (width / 2))
-                .attr("y", 40)
+                .attr("y", 45)
                 .style("fill", "black")
                 .style("text-anchor", "middle")
-                .style("font-size", "15px")
+                .style("font-size", "25px")
                 .text("Topic");
 
         // Add the Y Axis
@@ -508,7 +524,7 @@
                         "translate(" + -40 + "," + (height / 2) + ") rotate(-90) ")
                 .style("fill", "black")
                 .style("text-anchor", "middle")
-                .style("font-size", "15px")
+                .style("font-size", "25px")
                 .text("Weight");
       })
     }

@@ -41,7 +41,7 @@ def getrelateddocuments(query_title:str, query_abstract:str, cutoff = 0.8):
 
     embedding['similarity'] = embedding.apply(lambda row: getsimilarity(row[2:-2],query_embedding), axis=1)
     embedding = embedding.sort_values(by=['similarity'], ascending=False)
-    embedding = embedding[["ID", "0", "title","abstract"]].head(10)
+    embedding = embedding[["ID", "0", "title","abstract","similarity"]].head(10)
     embedding = embedding.rename(columns={'0': 'cord_uid'})
     embedding['abstract'] = embedding['abstract'].str[:300]
     getrelated = json.loads(embedding.to_json(orient="records"))
@@ -62,6 +62,7 @@ def getrelateddocuments(query_title:str, query_abstract:str, cutoff = 0.8):
         nodes_edges[i] = [sim_df.columns[j] for j,k in enumerate(f) if (k ==1) & (i != sim_df.columns[j])]
     
     embedding['edges'] = embedding['ID'].map(nodes_edges)
+
     return   embedding.to_json(orient="records")
 
 def test_getrelateddocuments():
