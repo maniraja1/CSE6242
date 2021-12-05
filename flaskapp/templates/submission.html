@@ -201,7 +201,7 @@
           }).size();
           //console.log(d.weight)      
           var minRadius = 5;
-          return minRadius + (d.weight * 2.5);
+          return minRadius + (d.weight *1);
         })
         .style("fill", function (d) {
           d.weight = path.filter(function (l) {
@@ -343,8 +343,10 @@
           //.domain([0, 4000])
           .range([0, width])
           
+          
         svg2.append("g")
           .attr("transform", "translate(0," + height + ")")
+          .style("font-size", "20px")
           .call(d3.axisBottom(x));
 
         svg2.append("text")
@@ -371,6 +373,7 @@
           .range([height, 0])
           
         svg2.append("g")
+          .style("font-size", "20px")
           .call(d3.axisLeft(y));
         
         svg2.append("text")
