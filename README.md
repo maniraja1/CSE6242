@@ -1,7 +1,6 @@
 # COVID-19 Knowledge search and visualization 
 
-[**Project Description**](#Project Description) [**Pretrained models**](#Pretrained-models) | [**Data PreProcessing**](#Data PreProcessing)
-[**Installation**](#Installation) 
+[**Project Description**](#Project-Description) [**Pretrained models**](#Pretrained-models) | [**Data PreProcessing**](#Data-PreProcessing) | [**Installation**](#Installation) 
 
 # Project Description
 
