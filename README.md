@@ -28,6 +28,35 @@ def getqueryembedding(query: str, abstract: str=''):
 ```
 
 ## LDA
+We collect the abstract and title for each paper in the dataset and build topic models by LDA. There are several steps involved:
+1. Collect the data from csv
+2. Remove punctuations
+3. Convert sentences to words
+4. Remove stop words
+5. Feed the data into pyLDAvis to train the model
+6. Get weights for each document in each topic
+7. Output the result in csv format
+
+Below is sample code for running LDA:
+```
+# Create Dictionary
+id2word = corpora.Dictionary(data_words)
+
+# Create Corpus
+corpus = [id2word.doc2bow(text) for text in data_words]
+
+# number of topics
+num_topics = 50
+
+# Build LDA model
+lda_model = gensim.models.LdaModel(corpus=corpus,
+                                   id2word=id2word,
+                                   num_topics=num_topics)
+
+# Get document topics
+for x, y in lda_model.get_document_topics(corpus[i]):
+    weights[x] = y
+```
 
 
 # Data PreProcessing
