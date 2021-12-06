@@ -91,3 +91,7 @@ If you see errors with installing transformers on your machine follow instructio
 * curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 * Restart the terminal
 * Pip3 install transformers==4.12.5
+
+# Demo video
+
+The installation demo video can be found in link below https://www.youtube.com/watch?v=HigwjmwJgzQ
