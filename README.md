@@ -95,3 +95,7 @@ If you see errors with installing transformers on your machine follow instructio
 # Demo video
 
 The installation demo video can be found in link below https://www.youtube.com/watch?v=HigwjmwJgzQ
+
+# Github repo
+The github repo can be cloned (not downloaded) from the link here https://github.com/maniraja1/CSE6242
+P.S: Do not download the repo but clone the repo as there are large files in the repo that may not be downloaded correctly
